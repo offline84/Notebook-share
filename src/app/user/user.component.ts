@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { DatastreamService } from '../datastream.service';
 
 @Component({
   selector: 'app-user',
@@ -6,10 +7,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit {
+  @Input() name: string;
+  users: any;
 
-  constructor() { }
+  constructor(private data: DatastreamService) {
+    data.getUsersFromDb().subscribe((usersData) =>{
+      this.users = usersData;
+      console.log(this.users);
+    });
+  }
 
   ngOnInit(): void {
+
   }
 
 }
