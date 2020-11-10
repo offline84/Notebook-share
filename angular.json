@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "notebook-share"
+    }
+  },
+  "defaultProject": "notebook-share",
+  "cli": {
+    "analytics": "c3af1757-013e-42e4-92d0-ea9e7a4f054b"
+  }
 }
