@@ -1,2 +1,3 @@
-<p *ngFor="let user of users">{{user.name}}</p>
-<button>Add new user</button>
+<p *ngFor="let user of userdata">{{user.name}}</p>
+<input #newUser type="text" placeholder="add new name">
+<button (click)="addUser(newUser.value)">Add new user</button>
