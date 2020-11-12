@@ -1,0 +1,17 @@
+<div *ngFor="let note of notesdata">
+  <p>{{note.title}}  <button (click)="deleteNoteFromUser(note.id)">X</button></p>
+</div>
+Add note <input type="checkbox" data-md-icheck (change)="showForm($event)">
+
+  <div *ngIf="showform">
+    <form>
+      <fieldset>
+        <label for="title">title:</label><br>
+        <input #title type="text"><br>
+        <label for="Note">Note:</label><br>
+        <input #note type="text">
+        <button (click)="addNoteForUser(user.id, title.value, note.value)">Submit note</button>
+      </fieldset>
+    </form>
+  </div>
+

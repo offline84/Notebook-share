@@ -1,3 +1,8 @@
-<p *ngFor="let user of userdata">{{user.name}}</p>
+<div *ngFor="let user of userdata">
+  <p>{{user.name}}
+    <button (click)="deleteUser(user.id)">Delete User</button>
+  </p>
+  <app-notes [user]="user"></app-notes>
+</div>
 <input #newUser type="text" placeholder="add new name">
 <button (click)="addUser(newUser.value)">Add new user</button>

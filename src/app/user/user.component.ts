@@ -1,6 +1,5 @@
-import { analyzeAndValidateNgModules } from '@angular/compiler';
-import { Component, Input, OnInit } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { DatastreamService } from '../datastream.service';
 
 @Component({
@@ -9,33 +8,54 @@ import { DatastreamService } from '../datastream.service';
   styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit {
-  @Input() name: string;
+  @Input() id: number;
+  @ViewChild('newUser') newUser: ElementRef;
+
   userdata: any;
   userSubject: BehaviorSubject<any> =new BehaviorSubject<any>(null);
   users: any;
-  count: number = -1;
 
 
   constructor(private dataStream: DatastreamService) {
-    this.getUsers();
 
+  }
+
+  ngOnInit(): void {
+    this.getUsers();
     this.users = this.userSubject.asObservable();
     this.users.subscribe(this.userdata);
   }
 
-  ngOnInit(): void {
-  }
+
   addUser = (user) =>{
-    this.dataStream.addUserToDb(user).subscribe((data) =>{
-      alert(user + ' is toegevoegd!');
-    },
-    error =>{
+    let inputcheck = 0;
+    this.userdata.forEach(element => {
+      if(element.name == user){
+        console.log("deze naam zit reeds in onze database, kies een andere naam.");
+        inputcheck++;
+      }
+    });
+
+    if(inputcheck == 0){
+      this.dataStream.addUserToDb(user).subscribe(
+      (error) =>{
+        console.log(error);
+      });
+
+      this.userSubject.next( alert(user + ' is toegevoegd!'));
+      this.getUsers();
+
+    }else alert("deze naam zit reeds in onze database, kies een andere naam.");
+    this.newUser.nativeElement.value = null;
+  }
+
+  deleteUser = (userId) =>{
+    this.dataStream.deleteUserFromDb(userId).subscribe((error)=> {
       console.log(error);
     });
-    this.userSubject.next(data =>{
-      console.log(data);
-    });
-    setTimeout(this.getUsers,10000);
+
+    this.userSubject.next( alert("De gebruiker is successvol verwijderd uit de database"));
+    this.getUsers();
   }
 
   getUsers = () =>{
