@@ -16,6 +16,7 @@ export class NotesComponent implements OnInit {
   notesubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   notes: any;
   showform: boolean = false;
+  editform:boolean = false;
 
   constructor(private datastream: DatastreamService) { }
 
@@ -36,24 +37,41 @@ export class NotesComponent implements OnInit {
       });
    }
 
-   addNoteForUser = (id, title, note) =>{
-     this.datastream.postNoteFromUserToDb(id, title, note).subscribe((error) =>{
+   addNote = (userid, title, note) =>{
+     this.datastream.postNoteFromUserToDb(userid, title, note).subscribe((error) =>{
       console.log(error);
     });
 
-    this.notesubject.next( alert(`${title} is added to database!`));
-    this.getNotesFromUser(id);
+    this.notesubject.next(this.notesdata);
+    alert(`${title} is added to database!`);
+    this.getNotesFromUser(userid);
    }
 
-   deleteNoteFromUser = (id) =>{
+   deleteNote = (id) =>{
      this.datastream.deleteNoteFromUserFromDb(id).subscribe((error)=>{
        console.log(error);
      });
-    this.notesubject.next(this.getNotesFromUser(id));
-    alert( `Note with id ${id} is deleted!`)
+
+    this.notesubject.next(alert( `Note with id ${id} is deleted!`));
+    this.getNotesFromUser(this.user.id);
+   }
+   editNote = (noteid, title, note) =>{
+     let data = {
+      'id': noteid,
+     }
+
+    this.datastream.adjustNoteFromUsertoDb(data).subscribe((error)=>{
+      console.log(error);
+    });
+
+    this.editform = false;
    }
 
    showForm = (e) =>{
     this.showform= e.target.checked;
+   }
+
+   showEditForm = (e) =>{
+     this.editform=e.target.checked;
    }
 }

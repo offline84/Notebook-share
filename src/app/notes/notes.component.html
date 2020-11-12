@@ -1,5 +1,22 @@
 <div *ngFor="let note of notesdata">
-  <p>{{note.title}}  <button (click)="deleteNoteFromUser(note.id)">X</button></p>
+  <p>
+    {{note.title}}
+    <button (click)="deleteNote(note.id)">
+      X
+    </button>
+       ...Edit note <input type="checkbox" data-md-icheck (change)="showEditForm($event)">
+  </p>
+  <div *ngIf="editform">
+    <form>
+      <fieldset>
+        <label for="title">title:</label><br>
+        <input #title type="text"><br>
+        <label for="Note">Note:</label><br>
+        <input #note type="text">
+        <button (click)="editNote(user.id, title.value, note.value)">Edit note</button>
+      </fieldset>
+    </form>
+  </div>
 </div>
 Add note <input type="checkbox" data-md-icheck (change)="showForm($event)">
 
@@ -10,7 +27,7 @@ Add note <input type="checkbox" data-md-icheck (change)="showForm($event)">
         <input #title type="text"><br>
         <label for="Note">Note:</label><br>
         <input #note type="text">
-        <button (click)="addNoteForUser(user.id, title.value, note.value)">Submit note</button>
+        <button (click)="addNote(user.id, title.value, note.value)">Submit note</button>
       </fieldset>
     </form>
   </div>
