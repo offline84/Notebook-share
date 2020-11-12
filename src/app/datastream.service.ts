@@ -36,7 +36,7 @@ export class DatastreamService {
     let req = new HttpParams().set("id", id);
     return this.http.delete('https://clear-diagnostic-inspiration.glitch.me/users/notes', {params: req});
   }
-  adjustNoteFromUsertoDb = (data) =>{
-    return this.http.patch('https://clear-diagnostic-inspiration.glitch.me/users/notes', data);
+  adjustNoteFromUsertoDb = (id, title, note) =>{
+    return this.http.patch('https://clear-diagnostic-inspiration.glitch.me/users/notes', {'title': title, 'id': id, 'note': note});
   }
 }

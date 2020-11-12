@@ -55,20 +55,9 @@ export class NotesComponent implements OnInit {
     this.notesubject.next(alert( `Note with id ${id} is deleted!`));
     this.getNotesFromUser(this.user.id);
    }
+
    editNote = (noteid, title, note) =>{
-     let data = `{'id': ${noteid},`;
-
-     if(title != ""){
-       data = data + `'title': ${title},`;
-     }
-     if(note != ""){
-       data = data + `'note': ${note}`;
-     }
-     data = data + "}";
-
-     console.log(data);
-
-    this.datastream.adjustNoteFromUsertoDb(data).subscribe((error)=>{
+    this.datastream.adjustNoteFromUsertoDb(noteid, title, note).subscribe((error)=>{
       console.log(error);
     });
    }
