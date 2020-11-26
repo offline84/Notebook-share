@@ -7,4 +7,6 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'notebook-share';
+  public focus;
+  public isCollapsed = true;
 }
