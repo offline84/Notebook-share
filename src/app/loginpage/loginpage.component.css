@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap');
+@import url(../app.component.css);
+
+h1 {
+  font-size: 5em;
+  font-family: 'Gloria Hallelujah', cursive;
+}
+
+.login {
+  border-radius: 10px;
+  text-align: center;
+}
+
+.txt-big {
+  font-size: 2em;
+}

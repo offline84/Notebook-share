@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { RippleRef } from '@angular/material/core';
 
 @Component({
   selector: 'app-root',
@@ -7,6 +8,14 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'notebook-share';
-  public focus;
-  public isCollapsed = true;
+  focus = false;
+  navMenu: Array<boolean> = [ true, false, false, false];
+
+  ChooseMenu = (menuId) => {
+    for(let index in this.navMenu) {
+      this.navMenu[index]= false;
+    }
+    this.navMenu[menuId] = true;
+    console.log(this.navMenu);
+  }
 }
