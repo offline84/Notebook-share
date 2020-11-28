@@ -14,3 +14,7 @@ h1 {
 .txt-big {
   font-size: 2em;
 }
+
+.spacer {
+  flex: 1 1 auto;
+}

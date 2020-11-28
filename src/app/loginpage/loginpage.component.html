@@ -13,10 +13,77 @@
         <input matInput type="text" placeholder="your username" #username class="nsh txt-big"/>
 
       </mat-form-field>
-      <button mat-button-flat class="bg-info col-2 p-2 nsh text-white text-2 lead btn-lg rounded-lg float-none" >Log in</button>
+      <button mat-button-flat type="button" class="bg-info col-2 p-2 nsh text-white text-2 lead btn-lg rounded-lg float-none" (click)="checkUsername(username.value)" >Log in</button>
+      <button *ngIf="userIsInvalid" mat-button-flat type="button" class="bg-danger col-2 p-2 nsh text-white text-2 lead btn-lg rounded-lg float-none" (click)="OpenList(listofusernames)" >I Forgot My Username</button>
+      <div *ngIf="userIsInvalid">
+        <h2 class="nsh text-warning"> We could not find your username in our database... . Try again</h2>
+      </div>
       <h2 class="nsh m-5">... Or add yourself as a new user </h2>
-      <button mat-button-flat class="bg-info col-3 p-2 nsh text-white text-2 lead btn-lg rounded-lg float-none" >Add new user</button>
+      <button mat-button-flat type="button" class="bg-info col-3 p-2 nsh text-white text-2 lead btn-lg rounded-lg float-none" (click)="OpenModal(addnewuser)" >Add new user</button>
     </form>
     <div class="col-3"></div>
   </div>
 </div>
+
+<ng-template #addnewuser let-modal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="modal-title nsh" id="modal-title-default">New User</h2>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <mat-form-field hintLabel="Max 30 characters" appearance="fill">
+        <mat-label>Enter desired username</mat-label>
+        <input class="nsh" matInput #newuser maxlength="30" placeholder="username">
+        <mat-hint align="end">{{newuser.value?.length || 0}}/30</mat-hint>
+      </mat-form-field>
+    </div>
+    <div>
+      <h3 *ngIf="userIsInvalid" class="nsh"> Name is already taken</h3>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modal.close('Close click')">Close</button>
+      <button type="button" class="btn btn-primary"(click)="addUser(newuser.value)">Add new user</button>
+    </div>
+  </div>
+
+</ng-template>
+
+<ng-template #listofusernames let-modal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="modal-title nsh" id="modal-title-default">Maybe I can find my username in this list...</h2>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"(click)="modal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <form>
+        <div class="form-group">
+          <label class="nsh" for="listofusernames">"the" list</label>
+          <div class="input-group">
+            <mat-form-field appearance="fill">
+              <mat-label>Usernames in database</mat-label>
+              <select matNativeControl [(ngModel)]= "selectedUsername" [ngModelOptions]="{standalone: true}">
+                <option *ngFor="let name of user" [value]="name.name">
+                  {{name.name}}
+                </option>
+              </select>
+            </mat-form-field>
+          </div>
+
+        </div>
+      </form>
+    </div>
+
+    <div class="modal-footer">
+      <h3 class="nsh"> Does the name {{selectedUsername}} ring a bell? </h3>
+      <span class="spacer"></span>
+      <button type="button" class="btn btn-info" (click)="getUsername()">That's my username!</button>
+    </div>
+
+  </div>
+</ng-template>

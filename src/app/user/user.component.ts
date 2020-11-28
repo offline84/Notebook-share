@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild, Output } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { DatastreamService } from '../datastream.service';
 
@@ -10,7 +10,6 @@ import { DatastreamService } from '../datastream.service';
 export class UserComponent implements OnInit {
   @Input() id: number;
   @ViewChild('newUser') newUser: ElementRef;
-
   userdata: any;
   userSubject: BehaviorSubject<any> =new BehaviorSubject<any>(null);
   users: any;
@@ -24,29 +23,6 @@ export class UserComponent implements OnInit {
     this.getUsers();
     this.users = this.userSubject.asObservable();
     this.users.subscribe(this.userdata);
-  }
-
-
-  addUser = (user) =>{
-    let inputcheck = 0;
-    this.userdata.forEach(element => {
-      if(element.name == user){
-        console.log("deze naam zit reeds in onze database, kies een andere naam.");
-        inputcheck++;
-      }
-    });
-
-    if(inputcheck == 0){
-      this.dataStream.addUserToDb(user).subscribe(
-      (error) =>{
-        console.log(error);
-      });
-
-      this.userSubject.next( alert(user + ' is toegevoegd!'));
-      this.getUsers();
-
-    }else alert("deze naam zit reeds in onze database, kies een andere naam.");
-    this.newUser.nativeElement.value = null;
   }
 
   deleteUser = (userId) =>{

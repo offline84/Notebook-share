@@ -12,6 +12,10 @@ export class DatastreamService {
   getUsersFromDb = () => {
     return this.http.get('https://clear-diagnostic-inspiration.glitch.me/users');
   }
+  getDistinctUserFromDb = (user) =>{
+    let req = new HttpParams().set("username", user);
+    return this.http.get('https://clear-diagnostic-inspiration.glitch.me/users/', {params: req});
+  }
 
   addUserToDb = (newUser) => {
     return this.http.post('https://clear-diagnostic-inspiration.glitch.me/users', {'name': newUser});

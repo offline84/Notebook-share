@@ -9,6 +9,7 @@ import { UserComponent } from './user/user.component';
 import { NotesComponent } from './notes/notes.component';
 import { MaterialModule } from './material/material.module';
 import { LoginpageComponent } from './loginpage/loginpage.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { LoginpageComponent } from './loginpage/loginpage.component';
     NgbModule,
     BrowserAnimationsModule,
     MaterialModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

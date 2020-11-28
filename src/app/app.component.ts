@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output } from '@angular/core';
 import { RippleRef } from '@angular/material/core';
 
 @Component({
@@ -8,6 +8,8 @@ import { RippleRef } from '@angular/material/core';
 })
 export class AppComponent {
   title = 'notebook-share';
+  user
+
   focus = false;
   navMenu: Array<boolean> = [ true, false, false, false];
 
