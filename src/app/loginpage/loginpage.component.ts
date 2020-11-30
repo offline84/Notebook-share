@@ -1,6 +1,6 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output} from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { BehaviorSubject} from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { DatastreamService } from '../datastream.service';
 
 @Component({
@@ -11,64 +11,77 @@ import { DatastreamService } from '../datastream.service';
 
 
 export class LoginpageComponent implements OnInit {
-  @ViewChild('username') name: ElementRef;
+
+  @Output() loginEvent = new EventEmitter<any>();
 
   user: any;
-  userIsInvalid: boolean = false;
-  userObservable: BehaviorSubject<any> =new BehaviorSubject<any>(null);
+  usersdata: any;
+  userIsInvalid: boolean;
   selectedUsername: string;
   usernames: any;
+
 
   constructor(private datastream: DatastreamService, private modalService: NgbModal) {
   }
 
   ngOnInit(): void {
+    this.GetRegisteredUsername('');
+    this.GetUsers();
   }
 
-  checkUsername = (username) => {
-    let checkUser: any;
+  GetUsers = () =>{
+    this.datastream.getUsersFromDb().subscribe((data) => {
+      this.usersdata = data;
+    });
+  }
 
-    checkUser = this.userObservable.asObservable();
-
+  GetRegisteredUsername = (username) => {
     this.datastream.getDistinctUserFromDb(username).subscribe((data) => {
       this.user = data;
-      checkUser.subscribe(this.user);
-      this.userObservable.next(this.ValidateUser());
     });
-
-
   }
 
-  addUser = (username) =>{
+  ValidateUser = (name: any) => {
+    this.userIsInvalid = true;
+    this.usersdata.forEach(user => {
+      if(user.name === name) {
+        this.userIsInvalid = false;
+      }
+    });
+}
 
-    this.checkUsername('username');
+CheckUsernameValidity = (name) =>{
+  this.GetRegisteredUsername(name);
+  this.ValidateUser(name);
+}
+
+
+  addUser = (username, modalname) =>{
 
       if(this.userIsInvalid){
       this.datastream.addUserToDb(username).subscribe(
       (error) =>{
         console.log(error);
       });
-
-      this.userObservable.next( alert(username + ' is toegevoegd!'));
-
+      this.modalService.dismissAll();
+      this.OpenModal(modalname);
+      setTimeout(this.GetUsers,3000);
     }
   }
 
-  ValidateUser = () => {
-      if(this.user.length != 1){
-        this.userIsInvalid = true;
-      }else{ this.userIsInvalid = false; }
-      console.log("invalid user = " + this.userIsInvalid);
+  LogIn =(username) => {
+    this.CheckUsernameValidity(username);
+    if(!this.userIsInvalid){
+      this.loginEvent.emit(!this.userIsInvalid);
+    }
   }
 
   OpenList = (listofusernames) =>{
     let value: number = 0;
+    this.selectedUsername = "";
 
-    this.checkUsername('');
-
-    this.usernames = [this.user.length];
-    console.log(this.usernames);
-    this.user.forEach(element => {
+    this.usernames = [this.usersdata.length];
+    this.usersdata.forEach(element => {
       this.usernames[value]={value: value, viewvalue: element.name};
       value++;
     });
@@ -77,13 +90,18 @@ export class LoginpageComponent implements OnInit {
   }
 
   OpenModal =(modalname) => {
+    this.GetUsers;
     this.modalService.open(modalname);
     console.log("Modal is open");
   }
 
-  getUsername = () => {
+  CloseModal = () => {
     this.modalService.dismissAll();
-    this.name.nativeElement.value = this.selectedUsername;
+  }
+
+  EraseName = () => {
+    this.modalService.dismissAll();
+    this.selectedUsername = "";
   }
 
 }

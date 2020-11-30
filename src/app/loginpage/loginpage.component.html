@@ -10,10 +10,10 @@
     <form class="bg-white w-100 p-5 mtb-6 login col-6 container-vertical">
       <h2 class="nsh">Log in to continue:</h2>
       <mat-form-field class="w-50 p-3">
-        <input matInput type="text" placeholder="your username" #username class="nsh txt-big"/>
+        <input matInput type="text" placeholder="your username" [(ngModel)]= "selectedUsername"  [ngModelOptions]="{standalone: true}" class="nsh txt-big"/>
 
       </mat-form-field>
-      <button mat-button-flat type="button" class="bg-info col-2 p-2 nsh text-white text-2 lead btn-lg rounded-lg float-none" (click)="checkUsername(username.value)" >Log in</button>
+      <button mat-button-flat type="button" class="bg-info col-2 p-2 nsh text-white text-2 lead btn-lg rounded-lg float-none" (click)="LogIn(selectedUsername)" >Log in</button>
       <button *ngIf="userIsInvalid" mat-button-flat type="button" class="bg-danger col-2 p-2 nsh text-white text-2 lead btn-lg rounded-lg float-none" (click)="OpenList(listofusernames)" >I Forgot My Username</button>
       <div *ngIf="userIsInvalid">
         <h2 class="nsh text-warning"> We could not find your username in our database... . Try again</h2>
@@ -36,16 +36,16 @@
     <div class="modal-body">
       <mat-form-field hintLabel="Max 30 characters" appearance="fill">
         <mat-label>Enter desired username</mat-label>
-        <input class="nsh" matInput #newuser maxlength="30" placeholder="username">
+        <input class="nsh" matInput #newuser [(ngModel)]= "selectedUsername"  [ngModelOptions]="{standalone: true}" maxlength="30" (ngModelChange)="ValidateUser($event)" placeholder="username">
         <mat-hint align="end">{{newuser.value?.length || 0}}/30</mat-hint>
       </mat-form-field>
     </div>
     <div>
-      <h3 *ngIf="userIsInvalid" class="nsh"> Name is already taken</h3>
+      <h3 *ngIf="!userIsInvalid" class="nsh"> Name is already taken</h3>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modal.close('Close click')">Close</button>
-      <button type="button" class="btn btn-primary"(click)="addUser(newuser.value)">Add new user</button>
+      <button type="button" class="btn btn-primary"(click)="addUser(newuser.value, notifyuseradded)">Add new user</button>
     </div>
   </div>
 
@@ -55,7 +55,7 @@
   <div class="modal-content">
     <div class="modal-header">
       <h2 class="modal-title nsh" id="modal-title-default">Maybe I can find my username in this list...</h2>
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close"(click)="modal.dismiss()">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"(click)="EraseName()">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
@@ -68,7 +68,8 @@
             <mat-form-field appearance="fill">
               <mat-label>Usernames in database</mat-label>
               <select matNativeControl [(ngModel)]= "selectedUsername" [ngModelOptions]="{standalone: true}">
-                <option *ngFor="let name of user" [value]="name.name">
+                <option [value]=""></option>
+                <option *ngFor="let name of usersdata" [value]="name.name">
                   {{name.name}}
                 </option>
               </select>
@@ -80,10 +81,32 @@
     </div>
 
     <div class="modal-footer">
-      <h3 class="nsh"> Does the name {{selectedUsername}} ring a bell? </h3>
+      <h3 class="nsh"> Does the name "{{selectedUsername}}" ring a bell? </h3>
       <span class="spacer"></span>
-      <button type="button" class="btn btn-info" (click)="getUsername()">That's my username!</button>
+      <button type="button" class="btn btn-info" (click)="CloseModal()">That's my username!</button>
     </div>
 
+  </div>
+</ng-template>
+
+<ng-template #notifyuseradded let-modal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title nsh text-center" id="modal-title-notification">Info</h4>
+    </div>
+
+    <div class="modal-body">
+      <div class="py-3 text-center">
+        <mat-icon>announcement</mat-icon>
+        <h2 class="heading mt-4 nsh">Congratulations!</h2>
+        <p class="nsh">{{selectedUsername}} is added to our database.</p>
+        <p class="nsh"> Now you can log in under this name to acces our website.</p>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-white" (click)="modal.close()">Ok, Got it</button>
+
+    </div>
   </div>
 </ng-template>

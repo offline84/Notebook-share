@@ -1,4 +1,5 @@
-import { Component, Input, Output } from '@angular/core';
+import { Component, Input, Output, ViewChild } from '@angular/core';
+import { LoginpageComponent } from './loginpage/loginpage.component';
 import { RippleRef } from '@angular/material/core';
 
 @Component({
@@ -7,8 +8,15 @@ import { RippleRef } from '@angular/material/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+@ViewChild(LoginpageComponent) logincredentials;
+user: any;
+
+ngAfterViewInit() {
+  this.user = this.logincredentials.user;
+}
+
   title = 'notebook-share';
-  user
+  loggedIn: boolean = false;
 
   focus = false;
   navMenu: Array<boolean> = [ true, false, false, false];
@@ -19,5 +27,9 @@ export class AppComponent {
     }
     this.navMenu[menuId] = true;
     console.log(this.navMenu);
+  }
+
+  RecieveLoggedUser = (e: boolean) => {
+    this.loggedIn = e;
   }
 }

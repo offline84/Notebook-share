@@ -14,16 +14,16 @@ export class DatastreamService {
   }
   getDistinctUserFromDb = (user) =>{
     let req = new HttpParams().set("username", user);
-    return this.http.get('https://clear-diagnostic-inspiration.glitch.me/users/', {params: req});
+    return this.http.get('https://clear-diagnostic-inspiration.glitch.me/users/:user', {params: req});
   }
 
   addUserToDb = (newUser) => {
-    return this.http.post('https://clear-diagnostic-inspiration.glitch.me/users', {'name': newUser});
+    return this.http.post('https://clear-diagnostic-inspiration.glitch.me/users/:user', {'name': newUser});
   }
 
   deleteUserFromDb = (userId) => {
     let req = new HttpParams().set("id", userId);
-    return this.http.delete('https://clear-diagnostic-inspiration.glitch.me/users', {params: req});
+    return this.http.delete('https://clear-diagnostic-inspiration.glitch.me/users/:user', {params: req});
   }
 
   //Retrieving or sending data concerning Notes

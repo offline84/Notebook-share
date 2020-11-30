@@ -25,50 +25,54 @@
     </form>
   </div>
 </nav>
+<div *ngIf="!loggedIn; else mainPage" class="h-100">
+  <layout-loginpage (loginEvent)="RecieveLoggedUser($event)"></layout-loginpage>
+</div>
 
-<layout-loginpage></layout-loginpage>
-<div class="Notebookshare" hidden>
-  <div class="row">
-    <div>
-      <mat-toolbar color="primary" class="navigation-menu">
-        <mat-toolbar-row matRipple>
-          <button mat-button class="menu-button" (click)="ChooseMenu(0)">
-            <span> My Notes </span>
-            <span class="spacer"></span>
-            <mat-icon>home</mat-icon>
-          </button>
-        </mat-toolbar-row>
+<ng-template #mainPage>
+  <div class="Notebookshare" >
+    <div class="row">
+      <div>
+        <mat-toolbar color="primary" class="navigation-menu">
+          <mat-toolbar-row matRipple>
+            <button mat-button class="menu-button" (click)="ChooseMenu(0)">
+              <span> My Notes </span>
+              <span class="spacer"></span>
+              <mat-icon>home</mat-icon>
+            </button>
+          </mat-toolbar-row>
 
-        <mat-toolbar-row matRipple>
-          <button mat-button class="menu-button" (click)="ChooseMenu(1)">
-            <span> Users </span>
-            <span class="spacer"></span>
-            <mat-icon aria-hidden="false">account_circle</mat-icon>
-          </button>
-        </mat-toolbar-row>
+          <mat-toolbar-row matRipple>
+            <button mat-button class="menu-button" (click)="ChooseMenu(1)">
+              <span> Users </span>
+              <span class="spacer"></span>
+              <mat-icon aria-hidden="false">account_circle</mat-icon>
+            </button>
+          </mat-toolbar-row>
 
-        <mat-toolbar-row matRipple>
-          <button mat-button class="menu-button" (click)="ChooseMenu(2)">
-            <span> Notes </span>
-            <span class="spacer"></span>
-            <mat-icon>note</mat-icon>
-          </button>
-        </mat-toolbar-row>
+          <mat-toolbar-row matRipple>
+            <button mat-button class="menu-button" (click)="ChooseMenu(2)">
+              <span> Notes </span>
+              <span class="spacer"></span>
+              <mat-icon>note</mat-icon>
+            </button>
+          </mat-toolbar-row>
 
-        <mat-toolbar-row matRipple>
-          <button mat-button class="menu-button" (click)="ChooseMenu(3)">
-            <span> Categories </span>
-            <span class="spacer"></span>
-            <mat-icon>Category</mat-icon>
-          </button>
-        </mat-toolbar-row>
-      </mat-toolbar>
-    </div>
-    <div *ngIf="navMenu[1]" class="row justify-content-md-center col-2 border bg-primary bg-light">
-      <app-user></app-user>
-    </div>
-    <div *ngIf="navMenu[2]" class="row justify-content-md-center col-2 border bg-primary bg-light">
-      <app-notes></app-notes>
+          <mat-toolbar-row matRipple>
+            <button mat-button class="menu-button" (click)="ChooseMenu(3)">
+              <span> Categories </span>
+              <span class="spacer"></span>
+              <mat-icon>Category</mat-icon>
+            </button>
+          </mat-toolbar-row>
+        </mat-toolbar>
+      </div>
+      <div *ngIf="navMenu[1]" class="row justify-content-md-center col-2 border bg-primary bg-light">
+        <app-user></app-user>
+      </div>
+      <div *ngIf="navMenu[2]" class="row justify-content-md-center col-2 border bg-primary bg-light">
+        <app-notes></app-notes>
+      </div>
     </div>
   </div>
-</div>
+</ng-template>
