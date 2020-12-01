@@ -1,46 +1,47 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
+
 @Injectable({
   providedIn: 'root'
 })
+
 export class DatastreamService {
 
   constructor(private http: HttpClient) { }
 
   //Retrieving or sending data concerning Users
+
   getUsersFromDb = () => {
     return this.http.get('https://clear-diagnostic-inspiration.glitch.me/users');
   }
-  getDistinctUserFromDb = (user) =>{
-    let req = new HttpParams().set("username", user);
-    return this.http.get('https://clear-diagnostic-inspiration.glitch.me/users/:user', {params: req});
-  }
 
   addUserToDb = (newUser) => {
-    return this.http.post('https://clear-diagnostic-inspiration.glitch.me/users/:user', {'name': newUser});
+    return this.http.post('https://clear-diagnostic-inspiration.glitch.me/users/:user', { 'name': newUser });
   }
 
   deleteUserFromDb = (userId) => {
     let req = new HttpParams().set("id", userId);
-    return this.http.delete('https://clear-diagnostic-inspiration.glitch.me/users/:user', {params: req});
+    return this.http.delete('https://clear-diagnostic-inspiration.glitch.me/users/:user', { params: req });
   }
 
   //Retrieving or sending data concerning Notes
+
   getAllNotesFromUserFromDB = (id) => {
     let req = new HttpParams().set("user", id);
-    return this.http.get('https://clear-diagnostic-inspiration.glitch.me/users/notes', {params: req});
+    return this.http.get('https://clear-diagnostic-inspiration.glitch.me/users/notes', { params: req });
   }
 
-  postNoteFromUserToDb = (id, title, data) =>{
-    return this.http.post('https://clear-diagnostic-inspiration.glitch.me/users/notes', {'title': title, 'user_id': id, 'note': data});
+  postNoteFromUserToDb = (id, title, data) => {
+    return this.http.post('https://clear-diagnostic-inspiration.glitch.me/users/notes', { 'title': title, 'user_id': id, 'note': data });
   }
 
-  deleteNoteFromUserFromDb = (id) =>{
+  deleteNoteFromUserFromDb = (id) => {
     let req = new HttpParams().set("id", id);
-    return this.http.delete('https://clear-diagnostic-inspiration.glitch.me/users/notes', {params: req});
+    return this.http.delete('https://clear-diagnostic-inspiration.glitch.me/users/notes', { params: req });
   }
-  adjustNoteFromUsertoDb = (id, title, note) =>{
-    return this.http.patch('https://clear-diagnostic-inspiration.glitch.me/users/notes', {'title': title, 'id': id, 'note': note});
+  adjustNoteFromUsertoDb = (id, title, note) => {
+    return this.http.patch('https://clear-diagnostic-inspiration.glitch.me/users/notes', { 'title': title, 'id': id, 'note': note });
   }
 }
+

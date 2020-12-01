@@ -26,13 +26,13 @@
   </div>
 </nav>
 <div *ngIf="!loggedIn; else mainPage" class="h-100">
-  <layout-loginpage (loginEvent)="RecieveLoggedUser($event)"></layout-loginpage>
+  <layout-loginpage (loginEvent)="RecieveLoggedUser($event)" [usersdata]="users"></layout-loginpage>
 </div>
 
 <ng-template #mainPage>
-  <div class="Notebookshare" >
+  <div class="Notebookshare">
     <div class="row">
-      <div>
+      <div >
         <mat-toolbar color="primary" class="navigation-menu">
           <mat-toolbar-row matRipple>
             <button mat-button class="menu-button" (click)="ChooseMenu(0)">
@@ -66,6 +66,9 @@
             </button>
           </mat-toolbar-row>
         </mat-toolbar>
+      </div>
+      <div *ngIf="navMenu[0]" class="row justify-content-md-center col-auto border bg-primary bg-light">
+        <button type="button" (click)="logUser()">check</button>
       </div>
       <div *ngIf="navMenu[1]" class="row justify-content-md-center col-2 border bg-primary bg-light">
         <app-user></app-user>

@@ -10,6 +10,8 @@ import { NotesComponent } from './notes/notes.component';
 import { MaterialModule } from './material/material.module';
 import { LoginpageComponent } from './loginpage/loginpage.component';
 import { FormsModule } from '@angular/forms';
+import { Component } from '../.component';
+import { AddUserDialogComponent } from './add-user-dialog/add-user-dialog.component';
 
 
 @NgModule({
@@ -18,6 +20,8 @@ import { FormsModule } from '@angular/forms';
     UserComponent,
     NotesComponent,
     LoginpageComponent,
+    Component,
+    AddUserDialogComponent,
   ],
   imports: [
     BrowserModule,

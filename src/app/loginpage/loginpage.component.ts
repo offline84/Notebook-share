@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BehaviorSubject } from 'rxjs';
 import { DatastreamService } from '../datastream.service';
@@ -15,31 +15,21 @@ export class LoginpageComponent implements OnInit {
   @Output() loginEvent = new EventEmitter<any>();
 
   user: any;
-  usersdata: any;
+  @Input() usersdata: any;
   userIsInvalid: boolean;
   selectedUsername: string;
   usernames: any;
+  resultMessage: string = "hello world";
+  errorText: string;
 
 
   constructor(private datastream: DatastreamService, private modalService: NgbModal) {
   }
 
   ngOnInit(): void {
-    this.GetRegisteredUsername('');
-    this.GetUsers();
+    console.log(this.usersdata);
   }
 
-  GetUsers = () =>{
-    this.datastream.getUsersFromDb().subscribe((data) => {
-      this.usersdata = data;
-    });
-  }
-
-  GetRegisteredUsername = (username) => {
-    this.datastream.getDistinctUserFromDb(username).subscribe((data) => {
-      this.user = data;
-    });
-  }
 
   ValidateUser = (name: any) => {
     this.userIsInvalid = true;
@@ -50,29 +40,30 @@ export class LoginpageComponent implements OnInit {
     });
 }
 
-CheckUsernameValidity = (name) =>{
-  this.GetRegisteredUsername(name);
-  this.ValidateUser(name);
-}
-
 
   addUser = (username, modalname) =>{
-
-      if(this.userIsInvalid){
       this.datastream.addUserToDb(username).subscribe(
-      (error) =>{
-        console.log(error);
+      (result) =>{
+        this.resultMessage = <string>result.error;
+        console.log(this.resultMessage);
+        this.datastream.getUsersFromDb().subscribe(result =>{
+          this.usersdata = result;
+
+          this.ValidateUser(username);
+
+        });
       });
       this.modalService.dismissAll();
+
+      // I want to use material dialog for this with injecting data when opening dialog. instead of modals.
+      // https://material.angular.io/components/dialog/examples
       this.OpenModal(modalname);
-      setTimeout(this.GetUsers,3000);
     }
-  }
 
   LogIn =(username) => {
-    this.CheckUsernameValidity(username);
+    this.ValidateUser(username);
     if(!this.userIsInvalid){
-      this.loginEvent.emit(!this.userIsInvalid);
+      this.loginEvent.emit(username);
     }
   }
 
@@ -90,7 +81,6 @@ CheckUsernameValidity = (name) =>{
   }
 
   OpenModal =(modalname) => {
-    this.GetUsers;
     this.modalService.open(modalname);
     console.log("Modal is open");
   }
