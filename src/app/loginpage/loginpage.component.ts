@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { BehaviorSubject } from 'rxjs';
+import { AddUserDialogComponent } from '../add-user-dialog/add-user-dialog.component';
 import { DatastreamService } from '../datastream.service';
 
 @Component({
@@ -19,11 +20,11 @@ export class LoginpageComponent implements OnInit {
   userIsInvalid: boolean;
   selectedUsername: string;
   usernames: any;
-  resultMessage: string = "hello world";
+  resultMessage: Object;
   errorText: string;
 
 
-  constructor(private datastream: DatastreamService, private modalService: NgbModal) {
+  constructor(private datastream: DatastreamService, private modalService: NgbModal, private dialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -41,11 +42,13 @@ export class LoginpageComponent implements OnInit {
 }
 
 
-  addUser = (username, modalname) =>{
+  addUser = (username) =>{
       this.datastream.addUserToDb(username).subscribe(
       (result) =>{
-        this.resultMessage = <string>result.error;
-        console.log(this.resultMessage);
+
+        this.resultMessage = result;
+        this.openMessageDialog(result);
+
         this.datastream.getUsersFromDb().subscribe(result =>{
           this.usersdata = result;
 
@@ -57,7 +60,6 @@ export class LoginpageComponent implements OnInit {
 
       // I want to use material dialog for this with injecting data when opening dialog. instead of modals.
       // https://material.angular.io/components/dialog/examples
-      this.OpenModal(modalname);
     }
 
   LogIn =(username) => {
@@ -94,4 +96,16 @@ export class LoginpageComponent implements OnInit {
     this.selectedUsername = "";
   }
 
+  openMessageDialog = (message) => {
+    const messageDialogConfig = new MatDialogConfig();
+
+    messageDialogConfig.autoFocus = true;
+
+    messageDialogConfig.data = {
+      messageinfo: message,
+      username: this.selectedUsername
+    }
+
+    this.dialog.open(AddUserDialogComponent, messageDialogConfig);
+  }
 }

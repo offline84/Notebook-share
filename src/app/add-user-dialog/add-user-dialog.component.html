@@ -1,1 +1,32 @@
-<p>add-user-dialog works!</p>
+<div class="p-2 m-1 text-center" *ngIf="success">
+  <h1 class="text-success" mat-dialog-title>&#10003;</h1>
+  <div mat-dialog-content>
+
+      <h2 class="heading mt-4 nsh text-center">Congratulations!</h2>
+      <div class="m-1 pbt-2">
+        <p class="nsh">{{success}}</p>
+        <p class="nsh"> Now you can log in under this name to acces our website.</p>
+      </div>
+
+  </div>
+  <div mat-dialog-actions>
+    <button type="button" class="bg-success col-12 p-2 nsh text-white text-2 lead btn-lg rounded-lg float-none" mat-dialog-close >Close</button>  </div>
+</div>
+
+<div class="p-2 m-1 text-center" *ngIf="error">
+  <h1 class="text-danger" mat-dialog-title>&#x2717;</h1>
+  <div mat-dialog-content>
+
+      <h2 class="heading mt-4 nsh text-center">Oh no!</h2>
+      <div class="m-1 pbt-2">
+        <p class="nsh">An error has occured!</p>
+        <p class="nsh" >reason: {{error}}</p>
+      </div>
+
+  </div>
+  <div mat-dialog-actions>
+    <button type="button" class="bg-danger col-12 p-2 nsh text-white text-2 lead btn-lg rounded-lg float-none" mat-dialog-close >Close</button>
+  </div>
+</div>
+
+

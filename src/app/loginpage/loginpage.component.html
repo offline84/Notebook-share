@@ -18,7 +18,7 @@
       <div *ngIf="userIsInvalid">
         <h2 class="nsh text-warning"> We could not find your username in our database... . Try again</h2>
       </div>
-      <p class="nsh" >{{resultMessage}}</p>
+
       <h2 class="nsh m-5">... Or add yourself as a new user </h2>
       <button mat-button-flat type="button" class="bg-info col-3 p-2 nsh text-white text-2 lead btn-lg rounded-lg float-none" (click)="OpenModal(addnewuser)" >Add new user</button>
     </form>
@@ -46,7 +46,7 @@
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modal.close('Close click')">Close</button>
-      <button type="button" class="btn btn-primary"(click)="addUser(newuser.value, notifyuseradded)">Add new user</button>
+      <button type="button" class="btn btn-primary"(click)="addUser(newuser.value)">Add new user</button>
     </div>
   </div>
 
@@ -87,34 +87,5 @@
       <button type="button" class="btn btn-info" (click)="CloseModal()">That's my username!</button>
     </div>
 
-  </div>
-</ng-template>
-
-<ng-template #notifyuseradded let-modal>
-  <div class="modal-content">
-    <div class="modal-header">
-      <h4 class="modal-title nsh text-center" id="modal-title-notification">Info</h4>
-    </div>
-
-    <div class="modal-body">
-      <div class="py-3 text-center">
-        <mat-icon>announcement</mat-icon>
-        <div *ngIf="resultMessage===undefined; error">
-          <h2 class="heading mt-4 nsh">Congratulations!</h2>
-          <p class="nsh" >{{errorText}}</p>
-          <p class="nsh">{{selectedUsername}} is added to our database.</p>
-          <p class="nsh"> Now you can log in under this name to acces our website.</p>
-        </div>
-        <ng-template #error>
-          <h2 class="heading mt-4 nsh">Oh no!</h2>
-          <p class="nsh" >{{errorText}}</p>
-        </ng-template>
-      </div>
-    </div>
-
-    <div class="modal-footer">
-      <button type="button" class="btn btn-white" (click)="modal.close()">Ok, Got it</button>
-
-    </div>
   </div>
 </ng-template>
