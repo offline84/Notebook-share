@@ -1,7 +1,14 @@
-<nav ngbNavbar class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
+<nav
+  ngbNavbar
+  class="navbar navbar-top navbar-expand-md navbar-dark"
+  id="navbar-main"
+>
   <div class="container-fluid">
-    <img class="avatar avatar-sm rounded-circle col-1" alt="Image placeholder"
-      src="assets/img/theme/Notepad_with_Pencil_128.png" />
+    <img
+      class="avatar avatar-sm rounded-circle col-1"
+      alt="Image placeholder"
+      src="assets/img/theme/Notepad_with_Pencil_128.png"
+    />
     <div class="media-body ml-2 d-none d-lg-block align-items-center">
       <h1 class="mb-0 text-sm font-weight-bold col-2 nsh">NotebookShare</h1>
     </div>
@@ -13,7 +20,7 @@
       titel
     </p>
     <!-- Form -->
-    <form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto col-auto">
+    <!-- <form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto col-auto">
       <div class="form-group mb-0" [ngClass]="{ focused: focus === true }">
         <div class="input-group input-group-alternative">
           <div class="input-group-prepend">
@@ -22,21 +29,32 @@
           <input class="form-control" placeholder="Search" type="text" (focus)="focus = true" (blur)="focus = false" />
         </div>
       </div>
-    </form>
+    </form> -->
+
+    <!-- TODO add onclick onmousover ... -->
+    <img
+      *ngIf="loggedIn"
+      src={{avatarPath}}
+      class="img-fluid col-1"
+      alt="Responsive image"
+    />
   </div>
 </nav>
 <div *ngIf="!loggedIn; else mainPage" class="h-100">
-  <layout-loginpage (loginEvent)="RecieveLoggedUser($event)" [usersdata]="users"></layout-loginpage>
+  <layout-loginpage
+    (loginEvent)="RecieveLoggedUser($event)"
+    [usersdata]="users"
+  ></layout-loginpage>
 </div>
 
 <ng-template #mainPage>
   <div class="Notebookshare">
     <div class="row">
-      <div >
+      <div>
         <mat-toolbar color="primary" class="navigation-menu">
           <mat-toolbar-row matRipple>
             <button mat-button class="menu-button" (click)="ChooseMenu(0)">
-              <span> My Notes </span>
+              <span> My Profile </span>
               <span class="spacer"></span>
               <mat-icon>home</mat-icon>
             </button>
@@ -44,36 +62,57 @@
 
           <mat-toolbar-row matRipple>
             <button mat-button class="menu-button" (click)="ChooseMenu(1)">
-              <span> Users </span>
-              <span class="spacer"></span>
-              <mat-icon aria-hidden="false">account_circle</mat-icon>
-            </button>
-          </mat-toolbar-row>
-
-          <mat-toolbar-row matRipple>
-            <button mat-button class="menu-button" (click)="ChooseMenu(2)">
-              <span> Notes </span>
+              <span> My Notes </span>
               <span class="spacer"></span>
               <mat-icon>note</mat-icon>
             </button>
           </mat-toolbar-row>
 
           <mat-toolbar-row matRipple>
+            <button mat-button class="menu-button" (click)="ChooseMenu(2)">
+              <span> Notes from users </span>
+              <span class="spacer"></span>
+              <mat-icon aria-hidden="false">account_circle</mat-icon>
+            </button>
+          </mat-toolbar-row>
+
+          <mat-toolbar-row matRipple>
             <button mat-button class="menu-button" (click)="ChooseMenu(3)">
-              <span> Categories </span>
+              <span>Notes by Category </span>
               <span class="spacer"></span>
               <mat-icon>Category</mat-icon>
             </button>
           </mat-toolbar-row>
         </mat-toolbar>
       </div>
-      <div *ngIf="navMenu[0]" class="row justify-content-md-center col-auto border bg-primary bg-light">
-        <button type="button" (click)="logUser()">check</button>
+      <div
+        *ngIf="navMenu[0]"
+        class="justify-content-md-center col-8 border bg-info row"
+      >
+        <div class="container-fluid">
+          <img
+            src={{avatarPath}}
+            class="img-fluid col-3"
+            alt="Responsive image"
+          />
+          <button type="button" (click)="getAvatarDialog()">Edit Avatar</button>
+        </div>
+        <div class="col-3 nsh container-fluid">
+          <h1>Profile Data</h1>
+          <p>Username = {{ user.name }}</p>
+          <p>userId = {{ user.id }}</p>
+        </div>
       </div>
-      <div *ngIf="navMenu[1]" class="row justify-content-md-center col-2 border bg-primary bg-light">
+      <div
+        *ngIf="navMenu[1]"
+        class="row justify-content-md-center col-2 border bg-primary bg-light"
+      >
         <app-user></app-user>
       </div>
-      <div *ngIf="navMenu[2]" class="row justify-content-md-center col-2 border bg-primary bg-light">
+      <div
+        *ngIf="navMenu[2]"
+        class="row justify-content-md-center col-2 border bg-primary bg-light"
+      >
         <app-notes></app-notes>
       </div>
     </div>

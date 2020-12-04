@@ -2,6 +2,8 @@ import { Component, Input, Output, ViewChild } from '@angular/core';
 import { LoginpageComponent } from './loginpage/loginpage.component';
 import { RippleRef } from '@angular/material/core';
 import { DatastreamService } from './datastream.service';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { AvatardialogComponent } from './avatardialog/avatardialog.component';
 
 @Component({
   selector: 'app-root',
@@ -17,12 +19,13 @@ export class AppComponent {
   loggedIn: boolean = false;
   users: any;
   user: any;
+  avatarPath: string = "assets/img/avatars/a1.jpg"
 
   focus = false;
   navMenu: Array<boolean> = [true, false, false, false];
 
 
-  constructor(private datastream: DatastreamService) { }
+  constructor(private datastream: DatastreamService,  private dialog: MatDialog) { }
 
   ngOnInit() {
 
@@ -57,7 +60,12 @@ export class AppComponent {
     console.log("logged in user:", this.user);
   }
 
-  logUser = ()=>{
-    console.log(this.user);
+  getAvatarDialog = () => {
+    const messageDialogConfig = new MatDialogConfig();
+
+    messageDialogConfig.autoFocus = true;
+
+    this.dialog.open(AvatardialogComponent,messageDialogConfig);
   }
 }
+

@@ -23,5 +23,4 @@ export class AddUserDialogComponent {
   close = () => {
     this.dialogRef.close();
   }
-
 }

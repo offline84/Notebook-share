@@ -11,6 +11,7 @@ import { NotesComponent } from './notes/notes.component';
 import { MaterialModule } from './material/material.module';
 import { LoginpageComponent } from './loginpage/loginpage.component';
 import { AddUserDialogComponent } from './add-user-dialog/add-user-dialog.component';
+import { AvatardialogComponent } from './avatardialog/avatardialog.component';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import { AddUserDialogComponent } from './add-user-dialog/add-user-dialog.compon
     NotesComponent,
     LoginpageComponent,
     AddUserDialogComponent,
+    AvatardialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -31,6 +33,7 @@ import { AddUserDialogComponent } from './add-user-dialog/add-user-dialog.compon
   ],
   entryComponents: [
     AddUserDialogComponent,
+    AvatardialogComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]
