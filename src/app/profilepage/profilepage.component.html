@@ -1,0 +1,19 @@
+<div class="d-inline">
+  <a href="javascript:void(0)" >
+  <img
+    src={{profile.profilepic}}
+    class="img-fluid col-2"
+    alt="Responsive image"
+  />
+  Edit Avatar</a>
+</div>
+<div class="col-7 nsh">
+  <h1>Profile Data</h1>
+  <p>Username = {{profile.user.name}}</p>
+  <p>userId = {{profile.user.id}} </p>
+  <p># of submitted notes = {{profile.notes.length}}</p>
+</div>
+<div>
+  <button type="button" class="btn btn-danger"(click)="confirmDelete()">Delete my userprofile from the database</button>
+</div>
+

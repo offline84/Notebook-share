@@ -5,7 +5,7 @@
       <h2 class="heading mt-4 nsh text-center">Congratulations!</h2>
       <div class="m-1 pbt-2">
         <p class="nsh">{{success}}</p>
-        <p class="nsh"> Now you can log in under this name to acces our website.</p>
+        <p *ngIf="!delete" class="nsh"> Now you can log in under this name to acces our website.</p>
       </div>
 
   </div>

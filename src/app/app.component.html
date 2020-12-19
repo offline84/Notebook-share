@@ -12,14 +12,10 @@
     <div class="media-body ml-2 d-none d-lg-block align-items-center">
       <h1 class="mb-0 text-sm font-weight-bold col-2 nsh">NotebookShare</h1>
     </div>
-    <h3 class="mb-0 text-lg font-weight-bold justify-content-center col-5">
+    <h3 class="mb-0 text-lg font-weight-bold text-center col-8">
       Share your notes among each other
     </h3>
-    <!-- Brand -->
-    <p class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block">
-      titel
-    </p>
-    <!-- Form -->
+
     <!-- <form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto col-auto">
       <div class="form-group mb-0" [ngClass]="{ focused: focus === true }">
         <div class="input-group input-group-alternative">
@@ -32,12 +28,18 @@
     </form> -->
 
     <!-- TODO add onclick onmousover ... -->
-    <img
-      *ngIf="loggedIn"
-      src={{avatarPath}}
-      class="img-fluid col-1"
-      alt="Responsive image"
-    />
+    <div class="col-1">
+      <div *ngIf="loggedIn" class="user-profile-wrapper d-none d-lg-inline-block align-items-center">
+        <a id="profilemenu" href="javascript:void(0)" [matMenuTriggerFor]="profileMenu">
+          <mat-icon class="text-center">person</mat-icon>
+          <p>Welcome {{user.name}}</p>
+        </a>
+        <mat-menu #profileMenu>
+          <button mat-menu-item (click)="ChooseMenu(0)">My Profile</button>
+          <button mat-menu-item (click)="logOut()">Log out</button>
+        </mat-menu>
+      </div>
+    </div>
   </div>
 </nav>
 <div *ngIf="!loggedIn; else mainPage" class="h-100">
@@ -50,58 +52,35 @@
 <ng-template #mainPage>
   <div class="Notebookshare">
     <div class="row">
-      <div>
+      <div class="col-2">
         <mat-toolbar color="primary" class="navigation-menu">
-          <mat-toolbar-row matRipple>
-            <button mat-button class="menu-button" (click)="ChooseMenu(0)">
-              <span> My Profile </span>
-              <span class="spacer"></span>
-              <mat-icon>home</mat-icon>
-            </button>
+
+          <mat-toolbar-row class="navigation-item" matRipple>
+            <a mat-menu-item class="menu-button" (click)="ChooseMenu(1)">
+                <span> My Notes </span>
+                <span class="spacer"></span>
+            </a>
           </mat-toolbar-row>
 
-          <mat-toolbar-row matRipple>
-            <button mat-button class="menu-button" (click)="ChooseMenu(1)">
-              <span> My Notes </span>
-              <span class="spacer"></span>
-              <mat-icon>note</mat-icon>
-            </button>
-          </mat-toolbar-row>
-
-          <mat-toolbar-row matRipple>
-            <button mat-button class="menu-button" (click)="ChooseMenu(2)">
+          <mat-toolbar-row class="navigation-item" matRipple>
+            <a mat-menu-item class="menu-button" (click)="ChooseMenu(2)">
               <span> Notes from users </span>
               <span class="spacer"></span>
-              <mat-icon aria-hidden="false">account_circle</mat-icon>
-            </button>
+            </a>
           </mat-toolbar-row>
 
-          <mat-toolbar-row matRipple>
-            <button mat-button class="menu-button" (click)="ChooseMenu(3)">
+          <mat-toolbar-row class="navigation-item" matRipple>
+            <a mat-menu-item class="menu-button" (click)="ChooseMenu(3)">
               <span>Notes by Category </span>
               <span class="spacer"></span>
-              <mat-icon>Category</mat-icon>
-            </button>
+            </a>
           </mat-toolbar-row>
         </mat-toolbar>
       </div>
       <div
         *ngIf="navMenu[0]"
-        class="justify-content-md-center col-8 border bg-info row"
-      >
-        <div class="container-fluid">
-          <img
-            src={{avatarPath}}
-            class="img-fluid col-3"
-            alt="Responsive image"
-          />
-          <button type="button" (click)="getAvatarDialog()">Edit Avatar</button>
-        </div>
-        <div class="col-3 nsh container-fluid">
-          <h1>Profile Data</h1>
-          <p>Username = {{ user.name }}</p>
-          <p>userId = {{ user.id }}</p>
-        </div>
+        class="col-10 border bg-info row h-100 d-inline container-fluid" id="myProfile">
+        <app-profilepage [profile]="profileData" (LogoutEvent)="deleteAndLogOut($event)"></app-profilepage>
       </div>
       <div
         *ngIf="navMenu[1]"

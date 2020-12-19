@@ -3,7 +3,7 @@ import { LoginpageComponent } from './loginpage/loginpage.component';
 import { RippleRef } from '@angular/material/core';
 import { DatastreamService } from './datastream.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { AvatardialogComponent } from './avatardialog/avatardialog.component';
+import { ProfilepageComponent } from './profilepage/profilepage.component';
 
 @Component({
   selector: 'app-root',
@@ -14,15 +14,15 @@ import { AvatardialogComponent } from './avatardialog/avatardialog.component';
 export class AppComponent {
   title = 'notebook-share';
 
-  @ViewChild(LoginpageComponent) logincredentials;
-
   loggedIn: boolean = false;
+  myNotes: any;
   users: any;
   user: any;
+  profileData: any;
   avatarPath: string = "assets/img/avatars/a1.jpg"
 
   focus = false;
-  navMenu: Array<boolean> = [true, false, false, false];
+  navMenu: Array<boolean> = [false, true, false, false];
 
 
   constructor(private datastream: DatastreamService,  private dialog: MatDialog) { }
@@ -35,11 +35,6 @@ export class AppComponent {
     })
   }
 
-  ngAfterViewInit() {
-    this.user = this.logincredentials.user;
-  }
-
-
   ChooseMenu = (menuId) => {
     for(let index in this.navMenu) {
       this.navMenu[index]= false;
@@ -48,24 +43,51 @@ export class AppComponent {
     console.log(this.navMenu);
   }
 
-  RecieveLoggedUser = (username: any) => {
-    console.log("usernname= ", username);
-    this.users.forEach(userdata => {
-      if(userdata.name == username) {
-        console.log(userdata.name,);
-        this.user = userdata;
-      }
-    });
-    this.loggedIn = true;
-    console.log("logged in user:", this.user);
+  OpenProfileMenu = () => {
+
+
   }
 
-  getAvatarDialog = () => {
-    const messageDialogConfig = new MatDialogConfig();
 
-    messageDialogConfig.autoFocus = true;
+  RecieveLoggedUser = (username: any) => {
+    console.log("username= ", username);
 
-    this.dialog.open(AvatardialogComponent,messageDialogConfig);
+    this.datastream.getUsersFromDb().subscribe((res) => {
+
+      this.users = res;
+      console.log("test 1 ", this.users);
+      this.users.forEach(userdata => {
+        if(userdata.name == username)
+        {
+          console.log(userdata.name,);
+          this.user = userdata;
+        }
+      });
+
+      this.loggedIn = true;
+      console.log("logged in user:", this.user);
+
+      this.datastream.getAllNotesFromUserFromDB(this.user.id).subscribe(res => {
+        this.myNotes = res;
+        console.log("notes from " + this.user.name + ":   ", res);
+        this.profileData = {
+          user: this.user,
+          notes: this.myNotes,
+          profilepic: this.avatarPath
+        }
+      });
+
+    });
+
+
+  }
+
+  deleteAndLogOut = (e) =>{
+      this.loggedIn = e;
+  }
+
+  logOut = () => {
+    this.loggedIn = false;
   }
 }
 

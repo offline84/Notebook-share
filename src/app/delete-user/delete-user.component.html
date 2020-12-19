@@ -1,0 +1,15 @@
+<div>
+  <h1 class="Are you sure" mat-dialog-title>Are you sure?</h1>
+</div>
+  <div mat-dialog-content>
+
+        <p class="nsh text-warn">This action will delete all entries from our database for username {{data.name}},</p>
+        <p class="nsh text-warn">including all notes stored in the database.</p>
+        <hr>
+        <p class="nsh">Are you sure you want to proceed?</p>
+
+  </div>
+  <div mat-dialog-actions>
+    <button type="button" class="bg-success col-12 p-2 nsh text-white text-2 lead btn-lg rounded-lg float-none" mat-dialog-close >close</button>
+    <button type="submit" class="bg-danger col-12 p-2 nsh text-white text-2 lead btn-lg rounded-lg float-none" (click)="deleteUser()">Yes, delete everything!</button>
+</div>

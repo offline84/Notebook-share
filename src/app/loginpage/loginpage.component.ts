@@ -27,9 +27,7 @@ export class LoginpageComponent implements OnInit {
   constructor(private datastream: DatastreamService, private modalService: NgbModal, private dialog: MatDialog) {
   }
 
-  ngOnInit(): void {
-    console.log(this.usersdata);
-  }
+  ngOnInit(): void { }
 
 
   ValidateUser = (name: any) => {
@@ -57,9 +55,6 @@ export class LoginpageComponent implements OnInit {
         });
       });
       this.modalService.dismissAll();
-
-      // I want to use material dialog for this with injecting data when opening dialog. instead of modals.
-      // https://material.angular.io/components/dialog/examples
     }
 
   LogIn =(username) => {
