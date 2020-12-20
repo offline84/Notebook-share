@@ -17,7 +17,7 @@ export class DatastreamService {
   }
 
   addUserToDb = (newUser) => {
-    return this.http.post('https://clear-diagnostic-inspiration.glitch.me/users/:user', { 'name': newUser });
+    return this.http.post('https://clear-diagnostic-inspiration.glitch.me/users', { 'name': newUser });
   }
 
   deleteUserFromDb = (userId) => {
@@ -42,6 +42,19 @@ export class DatastreamService {
   }
   adjustNoteFromUsertoDb = (id, title, note) => {
     return this.http.patch('https://clear-diagnostic-inspiration.glitch.me/users/notes', { 'title': title, 'id': id, 'note': note });
+  }
+  getCategoriesFromDb = () => {
+    return this.http.get('https://clear-diagnostic-inspiration.glitch.me/categories');
+  }
+  postCategorieToDb = (tag) => {
+    return this.http.post('https://clear-diagnostic-inspiration.glitch.me/categories',{'cat': tag});
+  }
+  assignCategoriesToNotesInDb = (noteId, tagId) => {
+    return this.http.post('https://clear-diagnostic-inspiration.glitch.me/notes/categories',{'noteId': noteId, 'tagId': tagId});
+  }
+  getAssignmentsFromDb =(noteId) => {
+    let req = new HttpParams().set("note", noteId);
+    return this.http.get('https://clear-diagnostic-inspiration.glitch.me/notes/categories', { params: req });
   }
 }
 

@@ -1,3 +1,46 @@
-<div *ngFor="let user of userdata">
-  <p>{{user.name}}  </p>
+<div class="float-left mb-2">
+  <div class="bg-info col-4 pb-4">
+    <h3 class="nsh">Add a new note</h3>
+    <form class="add-note w-100">
+      <mat-form-field class="title" appearance="outline">
+        <mat-label>Title</mat-label>
+        <input matInput #title placeholder="Title" required="true" minlength="3">
+        <mat-icon matSuffix>priority_high</mat-icon>
+        <mat-hint>cannot be empty</mat-hint>
+      </mat-form-field>
+
+      <mat-form-field class="content" appearance="fill">
+        <mat-label>Content</mat-label>
+        <textarea matInput #content placeholder="place your content here" rows="10" cols="auto"></textarea>
+        <mat-icon matSuffix>edit_mode</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field class="tags">
+        <mat-label>add new tag</mat-label>
+        <input #newTag matInput value="" type="text"/>
+      </mat-form-field>
+
+      <button class="float-right"  mat-raised-button (click)="addNewTag(newTag.value)">
+        <mat-icon>add</mat-icon>
+      </button>
+
+      <mat-form-field>
+
+        <mat-label>Tags</mat-label>
+        <mat-chip-list #taglist>
+          <mat-chip *ngFor="let tag of tags" [removable]=true (removed)="removeTag(tag)">
+            #{{tag}}
+            <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip>
+        </mat-chip-list>
+
+      </mat-form-field>
+    </form>
+    <button mat-button-flat type="button" class="col-12 p-2 nsh text-info text-2 lead btn-lg rounded-lg float-none" (click)="addNote(title.value, content.value)" >Submit Note</button>
+
+  </div>
+  <div class="col-8">
+
+  </div>
+
 </div>
