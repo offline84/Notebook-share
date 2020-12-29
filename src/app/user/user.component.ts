@@ -3,6 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DatastreamService } from '../datastream.service';
 
 
+
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
@@ -21,24 +22,14 @@ export class UserComponent implements OnInit {
   ngOnInit() {
     this.datastream.getCategoriesFromDb().subscribe((categories) => {
       this.tagsList = categories;
-
-      console.log(this.profile);
+      console.log(categories);
+      console.log("userprofile: " ,this.profile);
     });
   }
 
   addNewTag = (cat) =>{
     if(cat){
-      this.datastream.postCategorieToDb(cat).subscribe(res =>{
-        console.log(res);
-        this.tags.push(cat);
-
-        this.datastream.getCategoriesFromDb().subscribe((categories) => {
-          this.tagsList = categories;
-
-          console.log(this.tags);
-        });
-
-      });
+      this.tags.push(cat);
     }
   }
 
@@ -51,53 +42,91 @@ export class UserComponent implements OnInit {
   }
 
   addNote = (title, note) => {
-    let userId = this.profile.user.id;
-    let notes = this.profile.notes;
 
-    this.datastream.postNoteFromUserToDb(userId, title, note).subscribe(result=>{
+    /////////////////////////////////////////categories not adding!!!!
+    let tagId;
+    let noteId;
+    let log;
 
-      for(let prop in result){
+    //first post note
+    this.datastream.postNoteFromUserToDb(this.profile.user.id,title, note).subscribe(note=>{
 
-        if(result.hasOwnProperty(prop)){
+      //check for error and if not continue
+      for(let prop in note){
 
-          if(prop == "success" || prop == "error"){
-            this.messagecenter.open(result[prop], prop, {duration: 3000});
+        if(note.hasOwnProperty(prop)){
+
+          if(prop == "error"){
+            return note;
           }
+          else log = note;
         }
       }
 
-      this.datastream.getAllNotesFromUserFromDB(userId).subscribe(data =>{
-        notes = data;
+      // get last inserted id of note
+      this.datastream.getLastInsertedId().subscribe(note_id=>{
 
-        notes.forEach(note => {
+        noteId = note_id;
+        console.log(noteId[0].id);
 
-          if(note.title == title){
+        //check if tags are submitted and post them
+        if(this.tags.length > 0){
+          this.tags.forEach(tag=>{
+            this.datastream.postCategorieToDb(tag).subscribe(cat=>{
 
-            this.tags.forEach(lucidtag =>{
-              this.tagsList.forEach(dbTag =>{
+              //get tagId
+              for(let prop in cat){
 
-                if(lucidtag == dbTag.tag){
-                  this.datastream.assignCategoriesToNotesInDb(note.id, dbTag.id).subscribe(res=>{
+                if(cat.hasOwnProperty(prop)){
+                  //if new entry
+                  if(prop == "success"){
 
-                    for(let prop in res){
-
-                      if(res.hasOwnProperty(prop)){
-
-                        if(prop == "success" || prop == "error"){
-                          this.messagecenter.open(res[prop], prop, {duration: 3000});
-                        }
+                    this.datastream.getLastInsertedId().subscribe(tag_id=>{
+                      tagId = tag_id;
+                      console.log(tagId[0].id);
+                      //assign tag to note
+                      let assignmentCheck = this.assignTag(noteId[0].id,tagId[0].id);
+                      if(assignmentCheck){
+                        log = assignmentCheck
                       }
-                    }
-                  });
-                }
-              });
-            });
-          }
-          this.tags = new Array<string>();
-        });
-      });
+                    });
+                  }
+                  //find id
+                  else{
+                      this.tagsList.forEach(element=>{
+                        if(tag == element.tag){
+                          tagId = element.id;
+                        }
+                      });
+                      let assignmentCheck = this.assignTag(noteId,tagId);
+                        if(assignmentCheck){
+                          log = assignmentCheck
+                        }
 
+                  }
+                }
+              }
+              this.tags = new Array<string>();
+            });
+          });
+        }
+      });
     });
+    return log;
   }
 
+
+assignTag = (noteId, tagId): any => {
+  this.datastream.assignCategoriesToNotesInDb(noteId, tagId).subscribe(res=>{
+
+    for(let prop in res){
+      if(res.hasOwnProperty(prop)){
+
+        if(prop == "error"){
+          return res;
+        }
+      }
+    }
+  });
+}
 }

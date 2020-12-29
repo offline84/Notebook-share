@@ -1,1 +1,31 @@
-<p>notes works</p>
+<div class="container p-2">
+  <mat-card class="example-card">
+    <mat-card-header>
+      <div mat-card-avatar class="example-header-image"></div>
+      <mat-card-title class="nsh">{{note.title}}</mat-card-title>
+      <mat-card-subtitle>
+        noteId: {{note.id}}
+      </mat-card-subtitle>
+
+    </mat-card-header>
+    <div>
+      <mat-chip-list #taglist>
+        <div *ngFor="let tag of tags">
+          <mat-chip *ngIf="tag.noteId==note.id">
+              #{{tag.tag}}
+          </mat-chip>
+
+        </div>
+      </mat-chip-list>
+    </div>
+    <mat-card-content class="bg-info rounded text-white font-4 nsh">
+      {{note.note}}
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button>LIKE</button>
+      <button mat-button>SHARE</button>
+    </mat-card-actions>
+  </mat-card>
+
+
+</div>

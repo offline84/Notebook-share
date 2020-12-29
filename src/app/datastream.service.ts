@@ -46,15 +46,20 @@ export class DatastreamService {
   getCategoriesFromDb = () => {
     return this.http.get('https://clear-diagnostic-inspiration.glitch.me/categories');
   }
-  postCategorieToDb = (tag) => {
-    return this.http.post('https://clear-diagnostic-inspiration.glitch.me/categories',{'cat': tag});
+  postCategorieToDb = (tags) => {
+    return this.http.post('https://clear-diagnostic-inspiration.glitch.me/categories',{'cat': tags});
   }
   assignCategoriesToNotesInDb = (noteId, tagId) => {
     return this.http.post('https://clear-diagnostic-inspiration.glitch.me/notes/categories',{'noteId': noteId, 'tagId': tagId});
   }
-  getAssignmentsFromDb =(noteId) => {
-    let req = new HttpParams().set("note", noteId);
-    return this.http.get('https://clear-diagnostic-inspiration.glitch.me/notes/categories', { params: req });
+  getAssignmentsFromDb =() => {
+    return this.http.get('https://clear-diagnostic-inspiration.glitch.me/assignments');
+  }
+  getCoupledCategoriesFromDb =() => {
+    return this.http.get('https://clear-diagnostic-inspiration.glitch.me/assignments/categories');
+  }
+  getLastInsertedId = () =>{
+    return this.http.get('https://clear-diagnostic-inspiration.glitch.me');
   }
 }
 

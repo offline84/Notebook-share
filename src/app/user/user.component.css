@@ -1,1 +1,19 @@
-@import url(../app.component.css);
+@import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap');
+
+.nsh {
+  font-family: 'Gloria Hallelujah', cursive;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.info {
+  color:black;
+  min-width: 350px;
+}
+
+.new-note {
+  max-width: 300px;
+  max-height: 600px;
+}

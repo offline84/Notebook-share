@@ -8,12 +8,12 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { UserComponent } from './user/user.component';
 import { NotesComponent } from './notes/notes.component';
-import { MaterialModule } from './material/material.module';
 import { LoginpageComponent } from './loginpage/loginpage.component';
 import { AddUserDialogComponent } from './add-user-dialog/add-user-dialog.component';
 import { ProfilepageComponent } from './profilepage/profilepage.component';
 import { ProfilepictureComponent } from './profilepicture/profilepicture.component';
 import { DeleteUserComponent } from './delete-user/delete-user.component';
+import { MaterialModule } from './material/material.module';
 
 
 @NgModule({
