@@ -4,16 +4,9 @@
   font-family: 'Gloria Hallelujah', cursive;
 }
 
-.spacer {
-  flex: 1 1 auto;
-}
-
-.info {
+.search-bar {
   color:black;
-  min-width: 350px;
 }
-
-.new-note {
-  max-width: 300px;
-  max-height: 700px;
+.icon-display {
+  transform: scale(2);
 }

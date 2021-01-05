@@ -2,18 +2,9 @@
 
 .nsh {
   font-family: 'Gloria Hallelujah', cursive;
+  color: white;
 }
 
-.spacer {
-  flex: 1 1 auto;
-}
-
-.info {
-  color:black;
-  min-width: 350px;
-}
-
-.new-note {
+.lockwidth{
   max-width: 300px;
-  max-height: 700px;
 }

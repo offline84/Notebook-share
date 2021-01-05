@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { DatastreamService } from '../datastream.service';
+import { MessagecenterService } from '../messagecenter.service';
 
 
 
@@ -14,8 +14,9 @@ export class UserComponent implements OnInit {
   tagsList: any;
   checkboxAddTag: boolean;
   tags: Array<string>= new Array<string>();
+  isActive: boolean;
 
-  constructor(private datastream: DatastreamService, private messagecenter: MatSnackBar){
+  constructor(private datastream: DatastreamService, private messagecenter: MessagecenterService){
 
   }
 
@@ -28,7 +29,13 @@ export class UserComponent implements OnInit {
   }
 
   addNewTag = (cat) =>{
-    if(cat){
+    let duplicate;
+    this.tags.forEach((tag=>{
+      if(tag == cat){
+        duplicate = true;
+      }
+    }))
+    if(cat && !(duplicate)){
       this.tags.push(cat);
     }
   }
@@ -42,91 +49,56 @@ export class UserComponent implements OnInit {
   }
 
   addNote = (title, note) => {
-
-    /////////////////////////////////////////categories not adding!!!!
-    let tagId;
     let noteId;
-    let log;
 
     //first post note
-    this.datastream.postNoteFromUserToDb(this.profile.user.id,title, note).subscribe(note=>{
-
+    this.datastream.postNoteFromUserToDb(this.profile.user.id, title, note).subscribe(note => {
       //check for error and if not continue
-      for(let prop in note){
+      if(this.messagecenter.messageType(note) == "success"){
 
-        if(note.hasOwnProperty(prop)){
+        // get last inserted id of note
+        this.datastream.getLastInsertedId().subscribe(note_id => {
+          noteId = note_id;
+          console.log(this.tags);
+          console.log(noteId[0].id);
 
-          if(prop == "error"){
-            return note;
-          }
-          else log = note;
-        }
-      }
-
-      // get last inserted id of note
-      this.datastream.getLastInsertedId().subscribe(note_id=>{
-
-        noteId = note_id;
-        console.log(noteId[0].id);
-
-        //check if tags are submitted and post them
-        if(this.tags.length > 0){
-          this.tags.forEach(tag=>{
-            this.datastream.postCategorieToDb(tag).subscribe(cat=>{
-
-              //get tagId
-              for(let prop in cat){
-
-                if(cat.hasOwnProperty(prop)){
-                  //if new entry
-                  if(prop == "success"){
-
-                    this.datastream.getLastInsertedId().subscribe(tag_id=>{
-                      tagId = tag_id;
-                      console.log(tagId[0].id);
-                      //assign tag to note
-                      let assignmentCheck = this.assignTag(noteId[0].id,tagId[0].id);
-                      if(assignmentCheck){
-                        log = assignmentCheck
-                      }
-                    });
-                  }
-                  //find id
-                  else{
-                      this.tagsList.forEach(element=>{
-                        if(tag == element.tag){
-                          tagId = element.id;
-                        }
-                      });
-                      let assignmentCheck = this.assignTag(noteId,tagId);
-                        if(assignmentCheck){
-                          log = assignmentCheck
-                        }
-
-                  }
+          //assign tags to note if available
+          if (this.tags.length > 0) {
+            this.tags.forEach(tag => {
+              this.datastream.assignCategoriesToNotesInDb(noteId[0].id, tag).subscribe((err) => {
+                if(this.messagecenter.messageType(err) == "error"){
+                  this.messagecenter.store(err);
                 }
-              }
-              this.tags = new Array<string>();
+              })
             });
-          });
-        }
+            this.tags = new Array<string>();
+            this.updateProfile();
+          }
+        });
+      }
+      this.messagecenter.show(note).afterDismissed().subscribe(() => {
+        this.messagecenter.currentMessage.subscribe(message =>{
+          if (this.messagecenter.messageType(message) == "error") {
+            this.messagecenter.show(message);
+          }
+        });
       });
     });
-    return log;
+    this.updateProfile();
   }
 
+  updateProfile = () => {
+    this.datastream.getAllNotesFromUserFromDB(this.profile.user.id).subscribe(notes => {
+      this.profile.notes = notes;
+      this.datastream.getCoupledCategoriesFromDb(this.profile.user.id).subscribe(dir => {
+        this.profile.tagsDirective = dir;
+        console.log("new profile", this.profile);
+      });
+    });
+  }
 
-assignTag = (noteId, tagId): any => {
-  this.datastream.assignCategoriesToNotesInDb(noteId, tagId).subscribe(res=>{
+  changeStyle = ($event) =>{
+     this.isActive = $event;
+  }
 
-    for(let prop in res){
-      if(res.hasOwnProperty(prop)){
-
-        if(prop == "error"){
-          return res;
-        }
-      }
-    }
-  });
-}
 }

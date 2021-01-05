@@ -22,7 +22,7 @@ export class DatastreamService {
 
   deleteUserFromDb = (userId) => {
     let req = new HttpParams().set("id", userId);
-    return this.http.delete('https://clear-diagnostic-inspiration.glitch.me/users/:user', { params: req });
+    return this.http.delete('https://clear-diagnostic-inspiration.glitch.me/users', { params: req });
   }
 
   //Retrieving or sending data concerning Notes
@@ -46,17 +46,22 @@ export class DatastreamService {
   getCategoriesFromDb = () => {
     return this.http.get('https://clear-diagnostic-inspiration.glitch.me/categories');
   }
-  postCategorieToDb = (tags) => {
-    return this.http.post('https://clear-diagnostic-inspiration.glitch.me/categories',{'cat': tags});
+  assignCategoriesToNotesInDb = (noteId, tag) => {
+    return this.http.post('https://clear-diagnostic-inspiration.glitch.me/notes/categories',{'noteId': noteId, 'cat': tag});
   }
-  assignCategoriesToNotesInDb = (noteId, tagId) => {
-    return this.http.post('https://clear-diagnostic-inspiration.glitch.me/notes/categories',{'noteId': noteId, 'tagId': tagId});
+  removeCategoriesFromNotesInDb = (noteId, tag) =>{
+    let id = new HttpParams().set("note_id", noteId)
+      .append("cat", tag);
+
+    return this.http.delete('https://clear-diagnostic-inspiration.glitch.me/notes/categories', {params: id});
   }
   getAssignmentsFromDb =() => {
-    return this.http.get('https://clear-diagnostic-inspiration.glitch.me/assignments');
-  }
-  getCoupledCategoriesFromDb =() => {
     return this.http.get('https://clear-diagnostic-inspiration.glitch.me/assignments/categories');
+  }
+  getCoupledCategoriesFromDb =(id) => {
+    let req = new HttpParams().set("id", id);
+
+    return this.http.get('https://clear-diagnostic-inspiration.glitch.me/categories/user', { params: req });
   }
   getLastInsertedId = () =>{
     return this.http.get('https://clear-diagnostic-inspiration.glitch.me');

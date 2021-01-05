@@ -14,6 +14,8 @@ import { ProfilepageComponent } from './profilepage/profilepage.component';
 import { ProfilepictureComponent } from './profilepicture/profilepicture.component';
 import { DeleteUserComponent } from './delete-user/delete-user.component';
 import { MaterialModule } from './material/material.module';
+import { EditNoteDialogComponent } from './edit-note-dialog/edit-note-dialog.component';
+import { SearchComponent } from './search/search.component';
 
 
 @NgModule({
@@ -26,6 +28,8 @@ import { MaterialModule } from './material/material.module';
     ProfilepageComponent,
     ProfilepictureComponent,
     DeleteUserComponent,
+    EditNoteDialogComponent,
+    SearchComponent,
   ],
   imports: [
     BrowserModule,

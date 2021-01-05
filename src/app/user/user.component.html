@@ -1,6 +1,6 @@
 <div class="col-12 d-flex flex-row justify-content-start">
 
-  <div class="bg-info col pb-4 w-100 container sticky-top new-note">
+  <div [class.sticky-top.active]="isActive" class="bg-info col pb-4 w-100 container sticky-top new-note">
     <h3 class="nsh">Add a new note</h3>
     <form class="add-note w-100">
       <mat-form-field class="title" appearance="outline">
@@ -43,7 +43,7 @@
   <div class="col-8 flex-1 info container row" >
 
     <div class="col info container-fluid" *ngFor="let note of profile.notes">
-     <app-notes [note]="note" [tags]="profile.tagsDirective"></app-notes>
+     <app-notes [note]="note" [profile]="profile" (updateEvent)="updateProfile()" (changeStyleEvent)="changeStyle($event)"></app-notes>
 
     </div>
   </div>

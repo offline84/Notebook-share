@@ -70,7 +70,7 @@
 
           <mat-toolbar-row class="navigation-item" matRipple>
             <a mat-menu-item class="menu-button" (click)="ChooseMenu(2)">
-              <span> Notes from users </span>
+              <span> Search <mat-icon>search</mat-icon></span>
               <span class="spacer"></span>
             </a>
           </mat-toolbar-row>
@@ -105,8 +105,11 @@
       </div>
       <div
         *ngIf="navMenu[2]"
-        class="row justify-content-md-center col-2 border bg-primary bg-light"
+        class="row justify-content-md-center col-10 border bg-primary bg-light"
       >
+        <div>
+          <app-search></app-search>
+        </div>
 
       </div>
     </div>

@@ -60,9 +60,9 @@ export class AppComponent {
 
         console.log("notes from " + this.user.name + ":   ", notes);
 
-        this.datastream.getCoupledCategoriesFromDb().subscribe(tags => {
+        this.datastream.getCoupledCategoriesFromDb(this.user.id).subscribe(tags => {
           let t = tags as any;
-          console.log("cc",t);
+          console.log("tags",t);
 
           if(t == Array<Object>()){
             t.forEach(tag => {
@@ -98,6 +98,9 @@ export class AppComponent {
 
   deleteAndLogOut = (e) =>{
       this.loggedIn = e;
+      this.datastream.getUsersFromDb().subscribe((users) =>{
+        this.users = users;
+      })
   }
 
   logOut = () => {
