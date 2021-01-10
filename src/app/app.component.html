@@ -77,11 +77,14 @@
 
           <mat-toolbar-row class="navigation-item" matRipple>
             <a mat-menu-item class="menu-button" (click)="ChooseMenu(3)">
-              <span>Notes by Category </span>
+              <span>Notes by ... </span>
               <span class="spacer"></span>
             </a>
           </mat-toolbar-row>
         </mat-toolbar>
+      </div>
+      <div *ngIf="navMenu[4]">
+        <img class="img-fluid col p-0" src="./assets/img/yourguide.png">
       </div>
       <div
         *ngIf="navMenu[0]"
@@ -112,6 +115,15 @@
         </div>
 
       </div>
+      <div
+      *ngIf="navMenu[3]"
+      class="row justify-content-md-center col-10 border bg-primary bg-light"
+    >
+      <div>
+        <app-sorted-notes></app-sorted-notes>
+      </div>
+
+    </div>
     </div>
   </div>
 </ng-template>

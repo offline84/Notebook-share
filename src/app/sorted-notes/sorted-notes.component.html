@@ -1,0 +1,79 @@
+<div class="bg-info nsh txt-big">
+  <div class="row col-12">
+    <div class="col-3 p-3">
+      <p>Sort by:</p>
+    </div>
+    <div class="col p-3">
+      <mat-form-field appearance="fill">
+        <mat-label>Choose an option</mat-label>
+        <mat-select [(ngModel)]="options">
+          <mat-option value="username">User</mat-option>
+          <mat-option value="tag">Category</mat-option>
+          <mat-option value="title">Title</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col p-3">
+      <mat-slide-toggle
+        name="Descending"
+        [(ngModel)]="method"
+        [ngModelOptions]="{ standalone: true }"
+        (change)="changeOrder()"
+        >Descending</mat-slide-toggle
+      >
+    </div>
+  </div>
+
+  <div class="container-fluid">
+    <div *ngIf="options == 'username'">
+      <div class="border rounded p-1 m-3 row" *ngFor="let user of users">
+        <h2 class="nsh p-3">{{ user.name }}</h2>
+        <div *ngFor="let note of sortedNotes">
+          <app-notes
+            class="col"
+            *ngIf="user.id == note.user_id"
+            [note]="note"
+            [tags]="assignments"
+            [myNotes]="false"
+          ></app-notes>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid">
+    <div *ngIf="options == 'tag'">
+      <div class="border rounded p-1 m-3 row" *ngFor="let tag of categories">
+        <h2 class="nsh p-3">{{ tag.tag }}</h2>
+        <div *ngFor="let note of sortedNotes">
+          <div *ngFor="let ass of assignments">
+            <div *ngIf="tag.tag == ass.tag">
+              <app-notes
+                class="col"
+                *ngIf="ass.noteId == note.id"
+                [note]="note"
+                [tags]="assignments"
+                [myNotes]="false"
+              ></app-notes>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid">
+    <div *ngIf="options == 'title'">
+      <div class="border rounded p-1 m-3 row" *ngFor="let note of sortedNotes">
+        <h2 class="nsh p-3">{{ note.title }}</h2>
+        <app-notes
+          class="col"
+          [note]="note"
+          [tags]="assignments"
+          [myNotes]="false"
+        ></app-notes>
+      </div>
+    </div>
+  </div>
+
+</div>

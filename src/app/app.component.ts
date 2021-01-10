@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { DatastreamService } from './datastream.service';
+import { LoadingDialogComponent } from './loading-dialog/loading-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -17,16 +19,20 @@ export class AppComponent {
   avatarPath: string = "assets/img/avatars/a1.jpg"
 
   focus = false;
-  navMenu: Array<boolean> = [false, false, false, false];
+  navMenu: Array<boolean> = [false, false, false, false, true];
 
 
-  constructor(private datastream: DatastreamService) { }
+  constructor(private datastream: DatastreamService, private dialog: MatDialog) { }
 
   ngOnInit() {
+    let loadingref = this.dialog.open(LoadingDialogComponent);
+    loadingref.disableClose = true;
 
     this.datastream.getUsersFromDb().subscribe((res) => {
       this.users = res;
       console.log(res);
+      loadingref.disableClose = false;
+      loadingref.close();
     })
   }
 

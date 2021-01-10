@@ -66,5 +66,12 @@ export class DatastreamService {
   getLastInsertedId = () =>{
     return this.http.get('https://clear-diagnostic-inspiration.glitch.me');
   }
+  searchInDb = (search, searchBy, exactMatch) =>{
+    let param = new HttpParams().set('search', search)
+      .append('searchby', searchBy)
+      .append('exactmatch', exactMatch);
+      console.log(param);
+      return this.http.get('https://clear-diagnostic-inspiration.glitch.me/search', { params: param })
+  }
 }
 

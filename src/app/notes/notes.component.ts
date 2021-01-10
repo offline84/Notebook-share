@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { AddUserDialogComponent } from '../add-user-dialog/add-user-dialog.component';
 import { DatastreamService } from '../datastream.service';
 import { EditNoteDialogComponent } from '../edit-note-dialog/edit-note-dialog.component';
 import { MessagecenterService } from '../messagecenter.service';
@@ -13,9 +12,11 @@ import { MessagecenterService } from '../messagecenter.service';
 
 export class NotesComponent {
   @Input() note: any;
-  @Input() profile: any;
+  @Input() tags: any;
   @Output() updateEvent = new EventEmitter();
   @Output() changeStyleEvent = new EventEmitter<boolean>();
+  @Input() myNotes: boolean;
+  @Input() users: any;
 
   constructor(private datastream: DatastreamService, private message: MessagecenterService, private dialog: MatDialog){
   }
@@ -33,7 +34,7 @@ export class NotesComponent {
   openEditNoteDialog = () => {
     const config = new MatDialogConfig();
     let tagsForNote = [];
-    this.profile.tagsDirective.forEach(tag => {
+    this.tags.forEach(tag => {
       for(let p in tag){
         if(p == "noteId"){
           if(tag[p] == this.note.id){
@@ -57,7 +58,7 @@ export class NotesComponent {
 
     this.dialog.open(EditNoteDialogComponent, config);
 
-    this.dialog.afterAllClosed.subscribe(a=>{
+    this.dialog.afterAllClosed.subscribe(()=>{
       this.updateEvent.emit();
       this.changeStyleEvent.emit(true);
   });

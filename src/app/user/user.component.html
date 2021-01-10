@@ -43,7 +43,7 @@
   <div class="col-8 flex-1 info container row" >
 
     <div class="col info container-fluid" *ngFor="let note of profile.notes">
-     <app-notes [note]="note" [profile]="profile" (updateEvent)="updateProfile()" (changeStyleEvent)="changeStyle($event)"></app-notes>
+     <app-notes [note]="note" [tags]="profile.tagsDirective" [myNotes]="true" (updateEvent)="updateProfile()" (changeStyleEvent)="changeStyle($event)"></app-notes>
 
     </div>
   </div>

@@ -16,6 +16,8 @@ import { DeleteUserComponent } from './delete-user/delete-user.component';
 import { MaterialModule } from './material/material.module';
 import { EditNoteDialogComponent } from './edit-note-dialog/edit-note-dialog.component';
 import { SearchComponent } from './search/search.component';
+import { SortedNotesComponent } from './sorted-notes/sorted-notes.component';
+import { LoadingDialogComponent } from './loading-dialog/loading-dialog.component';
 
 
 @NgModule({
@@ -30,6 +32,8 @@ import { SearchComponent } from './search/search.component';
     DeleteUserComponent,
     EditNoteDialogComponent,
     SearchComponent,
+    SortedNotesComponent,
+    LoadingDialogComponent,
   ],
   imports: [
     BrowserModule,
