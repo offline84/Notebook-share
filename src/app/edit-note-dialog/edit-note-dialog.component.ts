@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA , MatDialogRef } from '@angular/material/dialog';
 import { DatastreamService } from '../datastream.service';
 import { MessagecenterService } from '../messagecenter.service';
@@ -9,6 +9,7 @@ import { MessagecenterService } from '../messagecenter.service';
   styleUrls: ['./edit-note-dialog.component.css']
 })
 export class EditNoteDialogComponent{
+  @ViewChild('newTag') newTag: ElementRef;
  noteId: number;
  title: string;
  content: string;
@@ -37,6 +38,7 @@ export class EditNoteDialogComponent{
       this.newTags.push({cat: cat, added: true});
       this.tags.push(cat);
     }
+    this.newTag.nativeElement.value = null;
   }
 
   removeTag = (tag) =>{

@@ -27,7 +27,6 @@ export class NotesComponent {
       this.message.show(res);
 
       this.updateEvent.emit();
-
     });
   }
 

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { DatastreamService } from '../datastream.service';
 import { MessagecenterService } from '../messagecenter.service';
 
@@ -11,6 +11,10 @@ import { MessagecenterService } from '../messagecenter.service';
 })
 export class UserComponent implements OnInit {
   @Input() profile: any;
+  @ViewChild('newTag') newTag: ElementRef;
+  @ViewChild('title') title: ElementRef;
+  @ViewChild('content') content: ElementRef;
+
   tagsList: any;
   checkboxAddTag: boolean;
   tags: Array<string>= new Array<string>();
@@ -38,6 +42,7 @@ export class UserComponent implements OnInit {
     if(cat && !(duplicate)){
       this.tags.push(cat);
     }
+    this.newTag.nativeElement.value = null;
   }
 
   removeTag = (tag) =>{
@@ -73,6 +78,10 @@ export class UserComponent implements OnInit {
             });
             this.tags = new Array<string>();
             this.updateProfile();
+            this.datastream.getCoupledCategoriesFromDb(this.profile.user.id).subscribe(dir => {
+              this.profile.tagsDirective = dir;
+              console.log("new profile", this.profile);
+            });
           }
         });
       }
@@ -84,16 +93,17 @@ export class UserComponent implements OnInit {
         });
       });
     });
+    this.clearForm()
     this.updateProfile();
   }
 
   updateProfile = () => {
     this.datastream.getAllNotesFromUserFromDB(this.profile.user.id).subscribe(notes => {
       this.profile.notes = notes;
-      this.datastream.getCoupledCategoriesFromDb(this.profile.user.id).subscribe(dir => {
-        this.profile.tagsDirective = dir;
-        console.log("new profile", this.profile);
-      });
+    });
+    this.datastream.getCoupledCategoriesFromDb(this.profile.user.id).subscribe(dir => {
+      this.profile.tagsDirective = dir;
+      console.log("new profile", this.profile);
     });
   }
 
@@ -101,4 +111,8 @@ export class UserComponent implements OnInit {
      this.isActive = $event;
   }
 
+  clearForm = () =>{
+    this.title.nativeElement.value = null;
+    this.content.nativeElement.value = null;
+  }
 }

@@ -9,10 +9,6 @@
  border-bottom: 2px solid black;
 }
 
-.spacer {
-  flex: 1 1 auto;
-}
-
 .navigation-menu .navigation-item span {
   padding: 0em 2em;
   color: white;
@@ -20,12 +16,10 @@
 
 .menu-button {
   width: 100%;
-  margin: 0em 2em;
 }
 
 .user-profile-wrapper {
  float: right;
- position: static;
 
 }
 .user-profile-wrapper .mat-icon {
@@ -38,6 +32,6 @@
 }
 
 .navigation-item mat-icon{
- text-align: right;
+ text-align: center;
 
 }

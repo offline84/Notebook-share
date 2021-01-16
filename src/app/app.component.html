@@ -16,18 +16,6 @@
       Share your notes among each other
     </h3>
 
-    <!-- <form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto col-auto">
-      <div class="form-group mb-0" [ngClass]="{ focused: focus === true }">
-        <div class="input-group input-group-alternative">
-          <div class="input-group-prepend">
-            <span class="input-group-text"><i class="fas fa-search"></i></span>
-          </div>
-          <input class="form-control" placeholder="Search" type="text" (focus)="focus = true" (blur)="focus = false" />
-        </div>
-      </div>
-    </form> -->
-
-    <!-- TODO add onclick onmousover ... -->
     <div class="col-1 h-100">
       <div
         *ngIf="loggedIn"
@@ -59,33 +47,31 @@
 <ng-template #mainPage>
   <div class="Notebookshare h-100">
     <div class="row">
-      <div class="col-2">
+      <div class="col-2 sticky-top">
         <mat-toolbar color="primary" class="navigation-menu">
           <mat-toolbar-row class="navigation-item" matRipple>
             <a mat-menu-item class="menu-button" (click)="ChooseMenu(1)">
               <span> MY Notes </span>
-              <span class="spacer"></span>
             </a>
           </mat-toolbar-row>
 
           <mat-toolbar-row class="navigation-item" matRipple>
             <a mat-menu-item class="menu-button" (click)="ChooseMenu(2)">
               <span> Search <mat-icon>search</mat-icon></span>
-              <span class="spacer"></span>
             </a>
           </mat-toolbar-row>
 
           <mat-toolbar-row class="navigation-item" matRipple>
             <a mat-menu-item class="menu-button" (click)="ChooseMenu(3)">
               <span>Notes by ... </span>
-              <span class="spacer"></span>
             </a>
           </mat-toolbar-row>
         </mat-toolbar>
       </div>
-      <div *ngIf="navMenu[4]">
-        <img class="img-fluid col p-0" src="./assets/img/yourguide.png">
+      <div *ngIf="navMenu[4]" class="col row h-100 w-100 d-inline container-fluid">
+        <img class="img-responsive w-100" src="./assets/img/yourguide.png" alt="Responsive image">
       </div>
+
       <div
         *ngIf="navMenu[0]"
         class="col-10 border bg-info row h-100 d-inline container-fluid"
